@@ -31,6 +31,7 @@ if($user->isLoggedIn()) {
 
     <h1>this is genre</h1>
 
+    <h3>Neues Genre erfassen</h3>
     <p>
         <form action="" method="post">
          <ul class="list-unstyled">
@@ -43,9 +44,20 @@ if($user->isLoggedIn()) {
             </ul>
         </form>
     </p>
+    <br> <br>
+    <h3>Löschen von Genres</h3>
+    <h6>Es werden nur Genres angezeigt, die zur Zeit nicht in einem Event verwendet werden</h6>
 
 
 <?php
+    echo '<form action="" method="post">'."\n";
+    $genres=DB::getInstance()->getDeletableGenres()->results();
+    foreach($genres as $row) {
+        echo '<input type="checkbox" name="genre[]" value="' . $row->id . '">' . $row->name . '<br>'."\n";
+    }
+    echo'<input type="submit" value="Delete" >';
+    echo '</form>'."\n";
+
 }else{
     Redirect::to('index.php');
 }

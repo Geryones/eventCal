@@ -27,6 +27,7 @@ class Pagination {
     public function __construct($table,$origin){
         $this->_table=$table;
         $this->_origin=$origin;
+
     }
 
     /**
@@ -37,11 +38,14 @@ class Pagination {
     public function getTotalRows($where=array()){
         //wenn bei where keine angaben gemacht wurden
         if(count($where)===0) {
-            return DB::getInstance()->actionAll('SELECT *', $this->_table)->count();
-        }else if(count($where===3)){
+            //return DB::getInstance()->actionAll('SELECT *', $this->_table)->count();
+            return DB::getInstance()->getArchivEvents($this->_table)->count();
+
+         //wird im moment nicht verwendet.. mal  nur hier um wiederverwendbarkeit zu erhöhen
+        }/*else if(count($where===3)){
             //mit einschränkenden kriterien
             return DB::getInstance()->action('SELECT *',$this->_table,$where)->count();
-        }
+        }*/
         //falls where nicht 0 oder 3 elemente enthält
         return $this->_errors=true;
     }
@@ -76,13 +80,19 @@ class Pagination {
     public function getContent($pagenumber,$pageRows,$where=array()){
         //berechnung ab wo man die zeilen haben will
         $offset=($pagenumber-1)*$pageRows;
-        if(count($where)===0){
+        if(count($where)===0) {
             //abfrage ohne kriterien
-            return DB::getInstance()->actionAll('SELECT *',$this->_table,$offset,$pageRows)->results();
-        }else if(count($where===3)){
+            //return DB::getInstance()->actionAll('SELECT *',$this->_table,$offset,$pageRows)->results();
+
+            return DB::getInstance()->getArchivEvents($this->_table, $offset, $pageRows)->results();
+        }
+
+
+            //wird im mom nicht verwendet
+        /*else if(count($where===3)){
             //abfrage mit kriterien
             return DB::getInstance()->action('SELECT *',$this->_table,$where,$offset,$pageRows)->results();
-        }
+        }*/
         //gab einen error
         return $this->_errors=true;
     }

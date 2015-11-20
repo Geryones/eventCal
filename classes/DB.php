@@ -55,6 +55,7 @@ class DB{
      * @return $this gibt bei erfolg die resultate als objekt zurück, bei einem fail die errormessage
      */
     public function query($sql,$params=array()){
+
         //echo' query erreicht<br>';
         //error meldung wird zurückgesetzt
         $this->_error=false;
@@ -326,16 +327,47 @@ class DB{
     }
 
 
+    /**
+     * funktion um alle genres abzurufen die zur zeit nicht verwendet werden
+     * @return DB id der nicht verwendeten genres
+     */
+    public function getDeletableGenres(){
+        $sql = 'select * from genre where not exists(select 1 from event where genre.id=event.fk_genre_id);';
+        return $this->query($sql);
+    }
 
-    //PAGINATION PAGINATION PAGINATION PAGINATION PAGINATION PAGINATION PAGINATION PAGINATION PAGINATION PAGINATION PAGINATION PAGINATION
+
+    /**
+     * funktion um alle pricegroups abzurufen welche zur zeit nicht verwendet werden
+     * @return DB id der nicht verwendten pricgroups
+     */
+    public function getDeletablePriceGroups(){
+        $sql='select * from pricegroup where not exists(select 1 from event_has_price where pricegroup.id=event_has_price.fk_pricegroup_id);';
+        return $this->query($sql);
+    }
 
 
-    //soll in naher zukunt die funktion action ersetzen
+
+    public function getUpCommingEvents($table){
+        $sql="select * from {$table} where date > now()";
+        return $this->query($sql);
+    }
 
 
 
+    public function getArchivEvents($table,$offset=null,$rows=null){
 
 
+        $sql="select * from {$table} where date < now()  order by date DESC ";
+        if(is_null($offset)&& is_null($rows)){
+
+            return $this->query($sql);
+        }elseif(is_numeric($offset)&&is_numeric($rows)){
+            $sql .= "LIMIT {$offset},{$rows}";
+
+            return $this->query($sql);
+        }
+    }
 
 
 

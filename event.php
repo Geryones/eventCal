@@ -120,7 +120,7 @@ if($user->isLoggedIn()) {
                     'date'=>$date,
                     'duration'=>Input::get('eventDuration'),
                     'picture'=>$eventFileName,
-                    'bildbeschreibung'=>Input::get('eventPictureDescription'),
+                    'picturedescription'=>Input::get('eventPictureDescription'),
                     'link'=>Input::get('eventLink'),
                     'linkDescription'=>Input::get('eventLinkDescription'),
                     'fk_genre_id'=>Input::get('genre')
@@ -132,8 +132,8 @@ if($user->isLoggedIn()) {
 
                 foreach(Input::get('pricegroup') as $price){
                     DB::getInstance()->insert('event_has_price',array(
-                        'fk_preisgruppe_id'=>intval($price),
-                        'fk_veranstaltung_id'=>$eventID
+                        'fk_pricegroup_id'=>intval($price),
+                        'fk_event_id'=>$eventID
                     ));
 
                 }
@@ -159,11 +159,11 @@ if($user->isLoggedIn()) {
          <ul class="list-unstyled">
                 <li>
                     <label for="eventName"> Eventname:</label><br>
-                    <input type="text"  name="eventName" id="eventName" required="required"  value="<?php echo escape(Input::get('eventName'));?>" autocomplete="off" >
+                    <input type="text"  name="eventName" id="eventName" required="required"  value="<?php echo escape(Input::get('eventName'));?>"  ><br>
                 </li>
                 <li>
                     <label for="eventCast">Cast:</label><br>
-                    <input type="text" name="eventCast" id="eventCast" value="<?php echo escape(Input::get('eventCast'));?>" autocomplete="off" >
+                    <input type="text" name="eventCast" id="eventCast" value="<?php echo escape(Input::get('eventCast'));?>"  ><br>
                 </li>
                 <li>
                     <label for="eventDescription">Description:</label><br>
@@ -177,33 +177,37 @@ if($user->isLoggedIn()) {
                      <label for="eventTimeHour">(Hour)</label> : <label for="eventTimeMinute">(Minutes)</label><br>
                      <input type="number" name="eventTimeHour" id="eventTimeHour" required="required" min="0" max="23" value="<?php echo escape(Input::get('eventTimeHour'));?>" >
                      :
-                     <input type="number" name="eventTimeMinute" id="eventTimeMinute" required="required" min="0" max="59" value="<?php echo escape(Input::get('eventTimeMinute'));?>"  >
+                     <input type="number" name="eventTimeMinute" id="eventTimeMinute" required="required" min="0" max="59" value="<?php echo escape(Input::get('eventTimeMinute'));?>"  ><br>
                 </li>
                 <li>
                     <label for="eventDuration">Event Duration in Minutes</label><br>
-                    <input type="number" name="eventDuration" id="eventDuration" required="required" min="0" value=<?php echo escape(Input::get('eventDuration'));?> >
+                    <input type="number" name="eventDuration" id="eventDuration" required="required" min="0" value=<?php echo escape(Input::get('eventDuration'));?> ><br>
                 </li>
                 <li>
                     <label for="eventLink">Link</label><br>
-                    <input type="text" name="eventLink" id="eventLink" value="<?php echo escape(Input::get('eventLink'));?>" >
+                    <input type="text" name="eventLink" id="eventLink" value="<?php echo escape(Input::get('eventLink'));?>" ><br>
                 </li>
                 <li>
                     <label for="eventLinkDescription">Link Description</label><br>
-                    <input type="text" name="eventLinkDescription" id="eventLinkDescription" value="<?php echo escape(Input::get('eventLinkDescription'));?>" >
+                    <input type="text" name="eventLinkDescription" id="eventLinkDescription" value="<?php echo escape(Input::get('eventLinkDescription'));?>" ><br><br>
                 </li>
                 <li>
                     <label for="eventPicture">Picture for the Event</label><br>
-                    <input type="file" name="eventPicture" id="eventPicture" required="required"  /><br><br>
+                    <input type="file" name="eventPicture" id="eventPicture" required="required"  /><br>
+                    <label for="eventPictureDescription">Picture Description</label><br>
                     <textarea name="eventPictureDescription" id="eventPictureDescription" cols="40" rows="5" required="required" ><?php echo escape(Input::get('eventPictureDescription'));?></textarea><br><br>
                 </li>
                 <li>
-                    <label>Genre</label><br>
-                    <?php
-                    $genres=DB::getInstance()->getAll('genre')->results();
-                    foreach($genres as $row){
-                        echo'<input type="radio" name="genre" required value="'.$row->id.'">'.$row->name.'<br>';
-                    }
-                    ?>
+                    <label for="genre">Genre</label><br>
+                    <select name="genre" required="required">
+                        <?php
+                            $genres=DB::getInstance()->getAll('genre')->results();
+                            foreach($genres as $row){
+                                echo'<option value="'.$row->id.'">'.$row->name.'</option>';
+                            }
+                        ?>
+                    </select><br>
+
                     <br>
                 </li>
                  <li>

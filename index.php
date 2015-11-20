@@ -6,18 +6,23 @@ include'includes/overall/header.php';
  */
 
 ?>
+<h1>Home</h1>
+<?php
 
-        <h1>Home</h1>
-        <p>
-            <h2>Upcomming Event</h2>
-            <?php
 
-           $event= DB::getInstance()->getAll('event','ASC','date')->first();
+$events= DB::getInstance()->getUpCommingEvents('event')->results();
 
-            var_dump($event);
+$organizer = new EventOrganizer();
 
-            ?>
-        </p>
+
+?>
+
+<h2>Upcoming Events</h2>
+<?php
+
+$organizer->organizeEvents($events);
+?>
+
 
 
 

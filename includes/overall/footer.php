@@ -1,7 +1,7 @@
 
 
 </div><!--end of container-->
-<?php include'includes/footer.php';?>
+<?php //include'includes/footer.php';?>
 <script src="css/jquery/jquery-1.11.3.min.js"></script>
 
 

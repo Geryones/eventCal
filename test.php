@@ -8,7 +8,8 @@
 require_once 'includes/overall/header.php';
 
 
-
+$stuff=DB::getInstance()->getDeletableGenres()->results();
+var_dump($stuff);
 ?>
 <?php
 

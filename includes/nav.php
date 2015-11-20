@@ -44,6 +44,9 @@ $user = new User();
                             <li>
                                 <a href="register.php">Create New Admin</a>
                             </li>
+                            <li>
+                                <a href="test.php">Test-Page</a>
+                            </li>
 
                         </ul><!--end of dropdown content-->
                     </li><!--end of dropdown-->

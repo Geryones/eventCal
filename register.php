@@ -28,7 +28,7 @@ include'includes/overall/header.php';
                     'name'=>'Password',
                     'required' => true,
                     'min' => 8,
-                    'mediumSecurity'=>true //gross und kleinbuchstaben, minimum eine zahl
+                    'mediumSecurity'=>false //gross und kleinbuchstaben, minimum eine zahl
                 ),
                 'password_again' => array(
                     'name'=>'Password Repetition',
