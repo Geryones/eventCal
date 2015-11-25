@@ -350,7 +350,7 @@ class DB{
 
 
     public function getUpCommingEvents($table){
-        $sql="select * from {$table} where date > now()";
+        $sql="select * from {$table} where date > now() order by date asc";
         return $this->query($sql);
     }
 

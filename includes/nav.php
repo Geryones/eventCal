@@ -20,9 +20,6 @@ $user = new User();
                 <li>
                     <a href="archiv.php">Archiv</a>
                 </li>
-                <li>
-                    <a href="Contact.php">Contact</a>
-                </li>
                 <?php
                 if ($user->isLoggedIn()) {
                    ?>

@@ -24,12 +24,15 @@ if($user->isLoggedIn()) {
 <?php
     echo '<form action="" method="post">'."\n";
     $pricegroups=DB::getInstance()->getDeletablePriceGroups()->results();
-
-    foreach($pricegroups as $row) {
-        echo '<input type="checkbox" name="pricegroup[]" value="' . $row->id . '">' . $row->name . ' : ' . $row->price . '<br>';
+    if(count($pricegroups)) {
+        foreach ($pricegroups as $row) {
+            echo '<input type="checkbox" name="pricegroup[]" value="' . $row->id . '">' . $row->name . ' : ' . $row->price . '<br>';
+        }
+        echo '<input type="submit" value="Delete" >';
+        echo '</form>' . "\n";
+    }else{
+        echo 'zur zeit können keine Pricegroups gelöscht werden';
     }
-    echo'<input type="submit" value="Delete" >';
-    echo '</form>'."\n";
 
 
 }else{

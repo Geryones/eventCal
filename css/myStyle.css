@@ -3,8 +3,9 @@
 .classWithPad{
     margin: 5px;
     min-height: 300px;
-    max-width: 400px;
+    max-width: 350px;
     color: #e5eae8;
+
 }
 
 
@@ -16,4 +17,9 @@
 
 .buttons{
     color: #080808;
+
+}
+
+.classWithPad a{
+    color: #ffffff;
 }

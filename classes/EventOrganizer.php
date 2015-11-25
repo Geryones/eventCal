@@ -28,17 +28,31 @@ class EventOrganizer {
             echo ' <div class="classWithPad" id="event-'.$event->id.'">'."\n";
 
 
-            //inhalt muss noch dargestellt werden
+            $this->generateEvent($event);
 
-            var_dump($event);
+
 
             if ($user->isLoggedIn()) {
+                echo '<table class="price">'."\n";
+                echo '<tbody>'."\n";
+                echo '<tr>'."\n";
+                echo '<td>'."\n";
+
+
                 echo '<form action="updateEvent.php" method="post" class="buttons">' . "\n";
                 echo '<button type="submit" name="update" value="' . $event->id . '">Update</button>' . "\n";
                 echo '</form>' . "\n";
+                echo '</td>'."\n";
+
+                echo '<td>'."\n";
                 echo '<form action="deleteEvent.php" method="post" class="buttons">' . "\n";
                 echo '<button type="submit" name="delete" value="' . $event->id . '">delete</button>' . "\n";
                 echo '</form>' . "\n";
+                echo '</td>'."\n";
+                echo '</tr>'."\n";
+                echo '</tbody>'."\n";
+                echo '</table>'."\n";
+
             }
 
 
@@ -73,10 +87,47 @@ class EventOrganizer {
     }
 
 
-    public function generateEvent($event){
-        $date = $event->date;
 
-        echo'<h6>'.$date.'</h6><br>'."\n";
+
+
+    public function generateEvent($event){
+
+        $db=DB::getInstance();
+
+        $genre = $db->get('genre',array('id','=',$event->fk_genre_id))->first()->name;
+
+        $priceKeys=$db->get('event_has_price',array('fk_event_id','=',$event->id))->results();
+
+        echo '<ul class="list-unstyled">'."\n";
+        echo '<h7>'.$event->date.'</h7>'."\n";
+        echo '<h4>'.$event->name.'</h4>'."\n";
+        echo '<h5>'.$event->description.'</h5>'."\n";
+        echo '<h4>'.$genre.'</h4>'."\n";
+        echo '<h7> Dauer: '.$event->duration.' Minuten</h7>'."\n";
+
+        if($event->link!="" && $event->linkDescription!=""){
+            echo '<h5>Link: <a href="'.$event->link.'">-->'.$event->linkDescription.'<--</a> </h5>'."\n";
+        }
+
+        echo '<table>'."\n";
+        echo '<tbody>'."\n";
+        echo '<tr>'."\n";
+        echo '<td colspan="2">--Preis--</td>'."\n";
+        echo '</tr>'."\n";
+
+
+        foreach($priceKeys as $price){
+            $priceGroup=$db->get('pricegroup',array('id','=',$price->fk_pricegroup_id))->first();
+            echo '<tr>'."\n";
+            echo '<td>'.$priceGroup->name.':  </td>'."\n";
+            echo '<td>'.$priceGroup->price.'</td>'."\n";
+            echo '</tr>'."\n";
+        }
+        echo '</tbody>'."\n";
+        echo '</table>'."\n";
+        echo '</ul>'."\n";
+
+
 
     }
 
