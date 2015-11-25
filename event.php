@@ -203,7 +203,7 @@ if($user->isLoggedIn()) {
                         <?php
                             $genres=DB::getInstance()->getAll('genre')->results();
                             foreach($genres as $row){
-                                echo'<option value="'.$row->id.'">'.$row->name.'</option>';
+                                echo'<option value="'.$row->id.'">'.$row->name.'</option>'."\n";
                             }
                         ?>
                     </select><br>
@@ -215,7 +215,7 @@ if($user->isLoggedIn()) {
                     <?php
                     $pricegroup=DB::getInstance()->getAll('pricegroup')->results();
                     foreach($pricegroup as $row) {
-                        echo '<input type="checkbox" name="pricegroup[]" value="' . $row->id . '">' . $row->name . ' : ' . $row->price . '<br>';
+                        echo '<input type="checkbox" name="pricegroup[]" value="' . $row->id . '">' . $row->name . ' : ' . $row->price . '<br>'."\n";
                     }
                     ?>
                      <br>

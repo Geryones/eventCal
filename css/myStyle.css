@@ -1,19 +1,19 @@
-footer{
-    color: #eeeeee;
-    font-size: 11px;
-}
+
 
 .classWithPad{
     margin: 5px;
     min-height: 300px;
     max-width: 400px;
-    color: #9acfea;
+    color: #e5eae8;
 }
 
 
 #bottomNavigation{
-    position:absolute;
     bottom:10px;
     text-align:center;
     width:100%;
+}
+
+.buttons{
+    color: #080808;
 }

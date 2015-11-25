@@ -37,7 +37,7 @@ $GLOBALS['config']=array(
      * einstellungen für das speichern von bilder
      */
     'pictures'=>array(
-        'dirOrginal'=>"../eventCal/files/pictures/",
+        'dirOriginal'=>"../eventCal/files/pictures/",
         'dirThumbnail'=>"../eventCal/files/pictures/thumbnails/"
     )
 );

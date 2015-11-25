@@ -39,7 +39,7 @@ class Input
     /**
      * funktion um einen bestimmten input abzurufen
      *
-     * @param $item gewünschtes inputfeld
+     * @param $item string gewünschtes inputfeld
      * @return string inhalt von $item
      */
     public static function get($item){

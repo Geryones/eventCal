@@ -32,6 +32,10 @@ if($user->isLoggedIn()) {
                 'price'=>Input::get('price')
 
             ));
+        }else{
+            foreach ($validation->errors() as $error) {
+                echo $error, '<br>';
+            }
         }
     }
     ?>
@@ -55,7 +59,9 @@ if($user->isLoggedIn()) {
     </p>
 
 
+
 <?php
+
 }else{
     Redirect::to('index.php');
 }

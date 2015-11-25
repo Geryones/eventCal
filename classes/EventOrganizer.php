@@ -9,8 +9,7 @@
 class EventOrganizer {
 
 
-
-    public function organizeEvents($events){
+    public function organizeEvents($events,$user){
         echo'<div class="container">'."\n";
         echo '<div class="row border">'."\n";
 
@@ -20,7 +19,7 @@ class EventOrganizer {
             $divider="";
             echo '<style>'."\n";
             echo '#event-'.$event->id.'{'."\n";
-            echo 'background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("'.Config::get('pictures/dirOrginal').$event->picture.'") no-repeat;'."\n";
+            echo 'background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("'.Config::get('pictures/dirOriginal').$event->picture.'") no-repeat;'."\n";
             echo 'background-position: center;'."\n";
             echo 'background-size: cover;'."\n";
             echo  '}'."\n";
@@ -33,7 +32,14 @@ class EventOrganizer {
 
             var_dump($event);
 
-
+            if ($user->isLoggedIn()) {
+                echo '<form action="updateEvent.php" method="post" class="buttons">' . "\n";
+                echo '<button type="submit" name="update" value="' . $event->id . '">Update</button>' . "\n";
+                echo '</form>' . "\n";
+                echo '<form action="deleteEvent.php" method="post" class="buttons">' . "\n";
+                echo '<button type="submit" name="delete" value="' . $event->id . '">delete</button>' . "\n";
+                echo '</form>' . "\n";
+            }
 
 
             echo '</div>'."\n";
@@ -65,5 +71,14 @@ class EventOrganizer {
         echo' </div>'."\n";
         echo' </div>'."\n";
     }
+
+
+    public function generateEvent($event){
+        $date = $event->date;
+
+        echo'<h6>'.$date.'</h6><br>'."\n";
+
+    }
+
 
 }

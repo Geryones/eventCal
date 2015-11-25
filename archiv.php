@@ -33,7 +33,7 @@ $content=$pagination->getContent($actualPage,$pageRows);
 
 echo'<h1> this is archiv</h1>'."\n";
 
-$eventOrganizer->organizeEvents($content);
+$eventOrganizer->organizeEvents($content,$user);
 
 $controls= $pagination->createPaginationControls($actualPage,$pageRows);
 ?>

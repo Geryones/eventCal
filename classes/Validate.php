@@ -112,9 +112,9 @@ class Validate{
                             break;
                         case 'date':
                             $today=getdate();
-                            $minDate=$today['year'].$today['mon'].$today['day'];
+                            $minDate=$today['year'].$today['mon'].$today['mday'];
                             $datepieces=explode("-",$value);
-                            $selectedDate=$datepieces[0].$datepieces[1].$datepieces[3];
+                            $selectedDate=$datepieces[0].$datepieces[1].$datepieces[2];
                             if($selectedDate<$minDate){
                                 $this->addError('Plz select a date in the future');
                             }
@@ -152,6 +152,7 @@ class Validate{
      */
     public function checkFile($source,$items=array()){
 
+
         //echo 'reached validation<br>';
 
         $this->_errors=array();
@@ -161,6 +162,8 @@ class Validate{
         foreach($items as $item=>$rules){
             if($source[$item]['error']!=0) {
                 $this->addError("Fehler beim Upload des Bildes, es stehen keine weiteren Informationen zur Verfügung");
+               return $this;
+
             }else{
                 $itemName = $rules['name'];
 
@@ -219,9 +222,9 @@ class Validate{
             }
 
         }
-       // echo 'survived all foreach<br>';
+        //echo 'survived all foreach<br>';
         if(empty($this->_errors)){
-            //echo'all went goooooood<br>';
+           // echo'all went goooooood<br>';
             $this->_passedFile=true;
         }
         return $this;

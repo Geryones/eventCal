@@ -10,6 +10,10 @@ require_once 'includes/overall/header.php';
 
 if($user->isLoggedIn()) {
 
+    if(Session::exists('success')){
+        echo '<h3>'. Session::flash('success').'</h3>';
+    }
+
     if(Input::exists()) {
 
         $validation = new Validate();
@@ -25,6 +29,13 @@ if($user->isLoggedIn()) {
             DB::getInstance()->insert('genre',array(
                 'name'=>Input::get('genre')
             ));
+            Session::flash('success','You created a new genre');
+            Redirect::to('genre.php');
+
+        }else{
+            foreach ($validation->errors() as $error) {
+                echo $error, '<br>';
+            }
         }
     }
     ?>
@@ -45,18 +56,7 @@ if($user->isLoggedIn()) {
         </form>
     </p>
     <br> <br>
-    <h3>Löschen von Genres</h3>
-    <h6>Es werden nur Genres angezeigt, die zur Zeit nicht in einem Event verwendet werden</h6>
-
-
-<?php
-    echo '<form action="" method="post">'."\n";
-    $genres=DB::getInstance()->getDeletableGenres()->results();
-    foreach($genres as $row) {
-        echo '<input type="checkbox" name="genre[]" value="' . $row->id . '">' . $row->name . '<br>'."\n";
-    }
-    echo'<input type="submit" value="Delete" >';
-    echo '</form>'."\n";
+    <?php
 
 }else{
     Redirect::to('index.php');

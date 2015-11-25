@@ -40,7 +40,7 @@ class SaveFile {
 
 
         //das bild wird umbenannt und verschoben
-        if(!move_uploaded_file($tmpName, Config::get('pictures/dirOrginal').$newFileName)){
+        if(!move_uploaded_file($tmpName, Config::get('pictures/dirOriginal').$newFileName)){
             return false;
         }
 
@@ -55,7 +55,7 @@ class SaveFile {
      * @param $orginalFilename name des orginal bildes
      * @return bool statusmeldung
      */
-    public function createResized($orginalFilename,$width=null,$height=null){
+    public function createResized($originalFilename,$width=null,$height=null){
         //masse für das thumbnail werden definiert
         if($width===null){
             $thumbWidht=75;
@@ -71,28 +71,28 @@ class SaveFile {
         //speicherort wird aus dem globalen array ausgelesen
         $thumbdir=Config::get('pictures/dirThumbnail');
         //da der name des orginals bereits unique ist, hänge ich einfach noch thumb_ davor
-        $thumbname='thumb_'.$orginalFilename;
+        $thumbname='thumb_'.$originalFilename;
 
         //liste mit allen relevanten eigenschaften des orginals
-        list($orginalWidth,$orginalHeight,$orginalType,$orginalAttr)=getimagesize(Config::get('pictures/dirOrginal').$orginalFilename);
+        list($originalWidth,$originalHeight,$originalType,$orginalAttr)=getimagesize(Config::get('pictures/dirOriginal').$originalFilename);
 
 
 
         //wenn breite grösser ist, wird die breite = max thumbWidth und die höhe im verhältnis berechnet
-        if($orginalWidth>$orginalHeight){
+        if($originalWidth>$originalHeight){
             $newWidth=$thumbWidht;
-            $newHeight=intval($orginalHeight*$newWidth/$orginalWidth);
+            $newHeight=intval($originalHeight*$newWidth/$originalWidth);
         }else{
             //hier ist das bild hochformat, das heisst die breite wird anhand der höhe berechnet
             $newHeight=$thumbHeight;
-            $newWidth=intval($orginalWidth*$newHeight/$orginalHeight);
+            $newWidth=intval($originalWidth*$newHeight/$originalHeight);
         }
         //hier werden die schwarzen ränder berechnet ( falls das bild nicht den proportionen des thumbs entspricht, dammit die proportionen des bildes erhalten bleiben
         $randX=intval(($thumbWidht-$newWidth)/2);//ränder links und rechts
         $randY=intval(($thumbHeight-$newHeight)/2); //ränder oben und unten
 
         //für unterschiedliche imagetypen braucht es unterschiedliche funktionen
-        switch($orginalType){
+        switch($originalType){
             case 1:
                 $imageType='ImageGIF';
                 $imageCreateFrom='ImageCreateFromGIF';
@@ -109,20 +109,20 @@ class SaveFile {
 
         //falls es einen entsprechenden typ gab trifft diese bedingung zu
         if($imageType){
-            $orginalImage=$imageCreateFrom(Config::get('pictures/dirOrginal').$orginalFilename);
+            $originalImage=$imageCreateFrom(Config::get('pictures/dirOriginal').$originalFilename);
             $newImage=imagecreatetruecolor($thumbWidht,$thumbHeight);
-            imagecopyresized($newImage,$orginalImage,$randX,$randY,0,0,$newWidth,$newHeight,$orginalWidth,$orginalHeight);
+            imagecopyresized($newImage,$originalImage,$randX,$randY,0,0,$newWidth,$newHeight,$originalWidth,$originalHeight);
             $imageType($newImage,$thumbdir.$thumbname);
         }
 
         //mit dem namen des orginals ermittle ich noch seine id, die id schreibe ich beim thumbnail dazu, dammit ich weiss zu welchem bild es gehört
         //da alle thumbnails gleich gross sind, verzichte ich darauf, die grössen und so abzuspeichern
-        $orginalImageID=DB::getInstance()->get('picture',array('name','=',$orginalFilename))->first()->id;
+        $originalImageID=DB::getInstance()->get('picture',array('name','=',$originalFilename))->first()->id;
 
         //thumbnail wird zusammen mit id von parentPicture abgespeichert
         if(!DB::getInstance()->insert('thumbnail',array(
             'name'=>$thumbname,
-            'parentPicture'=>$orginalImageID
+            'parentPicture'=>$originalImageID
         ))){
             //wenn es nicht funktioniert gibt es false zurück
             return false;

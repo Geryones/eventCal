@@ -50,7 +50,7 @@ class DB{
 
     /**
      * funktion für die abfrage der datenbank
-     * @param $sql statement das vorbereitet werden soll
+     * @param $sql string  statement das vorbereitet werden soll
      * @param array $params array mit den werten die an die fragezeichen gebunden werden sollen
      * @return $this gibt bei erfolg die resultate als objekt zurück, bei einem fail die errormessage
      */
@@ -96,11 +96,11 @@ class DB{
     }
 
     /**
-     * @param $action was soll gemacht werden? ( select, delete, update)
-     * @param $table welche tabelle soll verwendet werden
+     * @param $action string was soll gemacht werden? ( select, delete, update)
+     * @param $table string welche tabelle soll verwendet werden
      * @param array $where selektions argumente
-     * @param $offset falls offset und rows gesetzt sind, offset gibt den startwert an
-     * @param $rows anzahl zeilen das ausgegeben werden sollen
+     * @param $offset int falls offset und rows gesetzt sind, offset gibt den startwert an
+     * @param $rows int anzahl zeilen das ausgegeben werden sollen
      * @return $this|bool gibt das zurzeit verwendete objekt zurück, bei einem erfolg die gewünschten daten, bei einem error, die error-nachricht
      *
      * hier wird das query ($sql) für die funktion query erstellt
@@ -147,12 +147,12 @@ class DB{
     }
 
     /**
-     * @param $action welche aktion soll ausgeführt werden ( select /  update / delete)
-     * @param $table in welcher tabelle das geschehen soll
-     * @param $offset ab der wievielten zeile sollen die die resultate angzeigt werden, optional
-     * @para $rows wie viele zeilen sollen angezeigt werden,optional
-     * @para $orderRule hier kann man asc  oder desc angeben
-     * @para $orderField an welchem feld es sortiert werden soll
+     * @param $action string welche aktion soll ausgeführt werden ( select /  update / delete)
+     * @param $table string in welcher tabelle das geschehen soll
+     * @param $offset int ab der wievielten zeile sollen die die resultate angzeigt werden, optional
+     * @para $rows int wie viele zeilen sollen angezeigt werden,optional
+     * @para $orderRule string hier kann man asc  oder desc angeben
+     * @para $orderField string an welchem feld es sortiert werden soll
      * @return $this|bool kontrolle ob es funktioniert hat
      *
      * funktion um alles aus einer tabelle zu auswählen / aktualisierten / löschen, optional kann man auch
@@ -178,8 +178,8 @@ class DB{
 
 
     /**
-     * @param $table welche tabelle verwendet werden soll
-     * @param $where bedingungen
+     * @param $table string welche tabelle verwendet werden soll
+     * @param $where array bedingungen
      * @return $this|bool|DB   ruft funktion action auf, welche bei einem erfolg daten aus der db liefert, sonst eine error msg
      *
      * funktion um daten aus der db abzurufen
@@ -192,7 +192,7 @@ class DB{
 
     /**
      * Funktion um alle datensätze abzurufen
-     * @param $table welche tabelle
+     * @param $table string welche tabelle
      * @return $this|bool|DB bei erfolg, alle datensätze als objekt sonst false
      */
     public function getAll($table,$orderRule=null,$orderField=null){
@@ -209,8 +209,8 @@ class DB{
 
 
     /**
-     * @param $table welche tabelle werwendet werden soll
-     * @param $where bedingung
+     * @param $table string welche tabelle werwendet werden soll
+     * @param $where array bedingung
      * @return $this|bool|DB ruft funktion action auf, welche bei einem erfolg daten aus der db löscht, sonst eine error msg
      *
      * funktion um daten in der db zu löschen
@@ -244,7 +244,7 @@ class DB{
     }
 
     /**
-     * @param $table welche tabelle verwendet werden soll
+     * @param $table string welche tabelle verwendet werden soll
      * @param array $fields assoziativer array mit spalten der tabelle und dem entsprechendem wert
      * @return bool kontrolle ob inster funktioniert hat
      *
@@ -279,9 +279,9 @@ class DB{
     }
 
     /**
-     * @param $table welche tabelle verwendet werden soll
-     * @param $id primary key des datensatzes der modifiziert wird
-     * @param $fields assoziatives array mit spaltenbezeichnung als key und dem entsprechendem wert
+     * @param $table string welche tabelle verwendet werden soll
+     * @param $id int primary key des datensatzes der modifiziert wird
+     * @param $fields array assoziatives array mit spaltenbezeichnung als key und dem entsprechendem wert
      * @return bool kontrolle ob es funktioniert hat
      *
      * funktion um einen datensatz in einer db zu aktualisieren / ändern
@@ -289,6 +289,7 @@ class DB{
     public function update($table, $id, $fields){
         $set='';
         $x=1;
+
 
         /*
          * hier wird ausgezählt wie viele felder aktualisiert werden
@@ -315,7 +316,7 @@ class DB{
             //echo 'success';
             return true;
         }
-       // echo 'fail';
+        //echo 'fail';
         return false;
     }
 

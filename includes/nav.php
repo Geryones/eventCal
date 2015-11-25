@@ -33,19 +33,31 @@ $user = new User();
                                 <a href="admin.php">Uebersicht</a>
                             </li>
                             <li>
-                                <a href="event.php">Create Event</a>
-                            </li>
-                            <li>
-                                <a href="pricegroup.php">Manage PriceGroups</a>
-                            </li>
-                            <li>
-                                <a href="genre.php">Manage Genres</a>
-                            </li>
-                            <li>
                                 <a href="register.php">Create New Admin</a>
                             </li>
                             <li>
                                 <a href="test.php">Test-Page</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Manage Events</li>
+                            <li>
+                                <a href="event.php">Create Event</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Manage Genres</li>
+                            <li>
+                                <a href="genre.php">Create Genres</a>
+                            </li>
+                            <li>
+                                <a href="deleteGenre.php">Delete Genre</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Manage PriceGroups</li>
+                            <li>
+                                <a href="pricegroup.php">Create Group</a>
+                            </li>
+                            <li>
+                                <a href="deletePricegroup.php">Delete Group</a>
                             </li>
 
                         </ul><!--end of dropdown content-->
