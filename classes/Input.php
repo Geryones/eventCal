@@ -17,7 +17,7 @@ class Input
     /**
      * funktion um zu überprüfen ob ein input existiert
      *
-     * @param string $type checkt ob input mit post oder get übermittelt wird
+     * @param string $type checkt ob input mit post oder get übermittelt wird, default ist post
      * @return bool wenn es einen input gibt
      */
     public static function exists($type = 'post')

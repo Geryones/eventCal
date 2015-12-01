@@ -17,7 +17,7 @@ class Config{
     /**
      * funktion um die gesetzen konfigurationseinstellungen abzurufen
      *
-     * @param null $path pfad für das gewünschte attribut
+     * @param null/String $path pfad für das gewünschte attribut
      * @return string $config das gwünschte attribut des globalen config-arrays
      * @return bool falls der pfad nicht gesetzt wurde wird false zurückgegeben
      *

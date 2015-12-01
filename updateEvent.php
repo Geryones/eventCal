@@ -4,12 +4,15 @@
  * User: mai714
  * Date: 24.11.2015
  * Time: 09:47
+ *
+ *
+ * auf dieser seite wird das udaten von einem bestehenden event verwaltet
  */
 require_once 'includes/overall/header.php';
 
 
 
-
+//nur angemeldete admins haben zugriff
 if($user->isLoggedIn()) {
 
     if(!is_null($_POST['update'])) {
@@ -18,7 +21,7 @@ if($user->isLoggedIn()) {
         $_POST = array();
     }
     $db=DB::getInstance();
-
+    //bestehender event wird in der db aufgerufen
     $event = $db->get('event', array('id', '=', $updateId))->first();
 
 
@@ -27,7 +30,7 @@ if($user->isLoggedIn()) {
         $validation = new Validate();
         if (Input::exists()) {
 
-
+            //regeln für alle felder, analog zum erstellen eines events
             $validation->check($_POST, array(
                 'eventName' => array(
                     'name' => 'Event Name',
@@ -79,6 +82,19 @@ if($user->isLoggedIn()) {
 
             ));
 
+            //date-time stempel wird gebaut
+            $rawdate= new DateTime(Input::get('eventDate').' '.Input::get('eventTimeHour').':'.Input::get('eventTimeMinute').':00');
+            $date =$rawdate->format('Y-m-d H:i:s');
+            $duration=Input::get('eventDuration');
+            $endTime = strtotime("+{$duration} minutes", strtotime($date));
+
+            //hier wird überprüft ob ein event in einem zeitkonflikt mit einem anderen event steht
+            $conflicts=DB::getInstance()->getInterferingEvents('event','date',$date,date('Y-m-d h:i:s', $endTime))->results();
+            if(count($conflicts)){
+                $validation->addError('Dieses Event steht in einem Zeitkonflikt mit einem bereits bestehendem Event');
+                $validation->setPassed(false);
+            }
+
 
             if (!$validation->passed()) {
                 foreach ($validation->errors() as $error) {
@@ -87,8 +103,7 @@ if($user->isLoggedIn()) {
             }
 
 
-
-            // hier muss update funktion hin
+            //wenn alles validiert werden konnte wird hier der event aktualisiert
             if ($validation->passed() ) {
 
                 //2015-11-12 15:26:53 das wollen wir
@@ -99,7 +114,7 @@ if($user->isLoggedIn()) {
 
 
                 try {
-
+                    //neue daten werden in der db gespeichert
                     $db->update('event', Input::get('id'), array(
                             'name' => $eventName,
                             'starring' => Input::get('eventCast'),
@@ -118,12 +133,12 @@ if($user->isLoggedIn()) {
                     $eventID = $db->get('event', array('name', '=', $eventName))->first()->id;
 
                     $rowCount=$db->get('event_has_price',array('fk_event_id','=',$_POST['delete']))->count();
-
+                    //alte verknüpfungen mit pricegroups werden alle gelöscht
                     for($i=0;$i<$rowCount;$i++){
                         $db->delete('event_has_price',array('fk_event_id','=',$_POST['delete']));
                     }
 
-
+                    //die neuen verknüpfungen werden gespeichert
                     foreach (Input::get('pricegroup') as $price) {
                         $db->insert('event_has_price', array(
                             'fk_pricegroup_id' => intval($price),
@@ -201,6 +216,10 @@ We are sorry for the inconvenience </h3>
     <label for="genre">Genre</label><br>
     <select name="genre" required="required">
         <?php
+    /*
+     * hier wird das dropdown menü für die genres generiert
+     * da immer nur ein genre pro event existiert eigent sich das dropdown
+     */
         $genres=DB::getInstance()->getAll('genre')->results();
 
         foreach($genres as $row){
@@ -221,6 +240,10 @@ We are sorry for the inconvenience </h3>
 <li>
     <label>Pricegroups</label><br>
     <?php
+    /*
+     *hier wird das auswahl menü für die pricegroups  kreiert,
+     * für jede pricegroup gibt es eine checkbox
+     */
     $pricegroup=DB::getInstance()->getAll('pricegroup')->results();
     $selectedGroups=DB::getInstance()->get('event_has_price',array('fk_event_id','=',$event->id))->results();
     $prices=array();

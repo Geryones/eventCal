@@ -1,4 +1,5 @@
-
+<!-- das ist der zusammengefasste header
+am ende wird der body begonnen-->
 <!doctype html>
 <html>
 <?php

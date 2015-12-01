@@ -7,6 +7,8 @@
  */
 
 /**
+ * ***** eigentlich völlig überflüssig*******
+ *
  * auf dieser seit kann der user die informationen zu seinem profil betrachten
  * momentan ist es leider nocht möglich informationen von anderen users zu betrachten,
  * da der username wia get übermittelt wird

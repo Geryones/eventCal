@@ -23,8 +23,8 @@ class SaveFile {
     /**
      *
      * Funktion um ein bild zu speichern
-     * @param $files das bild
-     * @param $field name des input-feldes
+     * @param array $files das bild in array form ( $_files or $_post)
+     * @param string $field name des input-feldes
      * @return bool|string bool falls was nicht funktioniert, string mit dem filename falls es funktioniert
      */
     public function savePicture($files, $field)
@@ -50,9 +50,14 @@ class SaveFile {
     }
 
 
-    /**
+    /************wird zur zeit nicht verwendet************
+     *
+     *
+     *
      * funktion um ein thumbnail von einem bild zu erstellen, speichern und in der datenbank einzutragen
-     * @param $orginalFilename name des orginal bildes
+     * @param string $originalFilename name des orginal bildes
+     * @param int $width gewünschte breite des neuen bilds
+     * @param int $height geünschte höhe des neuen bilds
      * @return bool statusmeldung
      */
     public function createResized($originalFilename,$width=null,$height=null){

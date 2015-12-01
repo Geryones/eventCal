@@ -15,7 +15,7 @@ class Hash{
     /**
      * funktion um einen string zu verschlüsseln, mit den kosten 9 und dem algorythmus bcrypt
      *
-     * @param $string string der encryptetd werden soll
+     * @param string $string  der encryptetd werden soll
      * @return bool|string falls es fehler gibt, kommt false zurück, ansonsten kommt der encryptete $string zurück
      */
     public static function make($string){

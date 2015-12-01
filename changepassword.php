@@ -1,10 +1,10 @@
 <?php
+/**
+ * auf dieser seit kann ein admin sein bestehendes passwort ändern
+ */
 
 include'includes/overall/header.php';
 
-/**
- * auf dieser seit kann der user sein passwort ändern
- */
 
 
 //wenn der user nicht eingeloggt ist, hat er hier nicht verloren, daher weiterleiten auf index

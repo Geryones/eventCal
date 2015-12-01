@@ -4,10 +4,13 @@
  * User: mai714
  * Date: 13.11.2015
  * Time: 09:39
+ *
+ * auf dieser seite kann der admin genres generieren
+ *
  */
 require_once 'includes/overall/header.php';
 
-
+//nur angemeldete admins haben zugriff
 if($user->isLoggedIn()) {
 
     if(Session::exists('success')){
@@ -18,6 +21,7 @@ if($user->isLoggedIn()) {
 
         $validation = new Validate();
 
+        //regeln für den namen
         $validation->check($_POST, array(
             'genre' => array(
                 'name' => 'Genre',
@@ -25,6 +29,7 @@ if($user->isLoggedIn()) {
                 'max' => 45
             )
         ));
+        //wenn alles gut ging wird in der db ein neuer eintrag für das genre gemacht
         if ($validation->passed()) {
             DB::getInstance()->insert('genre',array(
                 'name'=>Input::get('genre')

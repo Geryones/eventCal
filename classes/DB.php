@@ -8,7 +8,7 @@
 
 
 /**
- * Class DB ist das herzstück, hier wird die verbindung mit der datenbank hergestellt
+ * Class DB ist das herzstück, hier wird die verbindung mit der datenbank hergestellt und hier werden auch alle zugriffsfunktion verwaltet
  * ist ein database-wrapper, zusammen mit dem singleton kann man diese klasse von überall her in dieser applikation verwenden.
  * es wird pdo verwendet, um die reuseability zu erhöhen
  */
@@ -50,8 +50,8 @@ class DB{
 
     /**
      * funktion für die abfrage der datenbank
-     * @param $sql string  statement das vorbereitet werden soll
-     * @param array $params array mit den werten die an die fragezeichen gebunden werden sollen
+     * @param string $sql   statement das vorbereitet werden soll
+     * @param array $params enthält die werte die an die fragezeichen gebunden werden sollen
      * @return $this gibt bei erfolg die resultate als objekt zurück, bei einem fail die errormessage
      */
     public function query($sql,$params=array()){
@@ -96,11 +96,11 @@ class DB{
     }
 
     /**
-     * @param $action string was soll gemacht werden? ( select, delete, update)
-     * @param $table string welche tabelle soll verwendet werden
+     * @param string $action was soll gemacht werden? ( select, delete, update)
+     * @param string $table welche tabelle soll verwendet werden
      * @param array $where selektions argumente
-     * @param $offset int falls offset und rows gesetzt sind, offset gibt den startwert an
-     * @param $rows int anzahl zeilen das ausgegeben werden sollen
+     * @param int $offset falls offset und rows gesetzt sind, offset gibt den startwert an
+     * @param int $rows anzahl zeilen das ausgegeben werden sollen
      * @return $this|bool gibt das zurzeit verwendete objekt zurück, bei einem erfolg die gewünschten daten, bei einem error, die error-nachricht
      *
      * hier wird das query ($sql) für die funktion query erstellt
@@ -136,7 +136,7 @@ class DB{
                 //echo $sql.'<br>';
                 //wenn es keinen error gibt, gibt es die daten zurück
                 if(!$this->query($sql, array($value))->error()){
-                    //echo 'theretisch success mit offset und rows<br>';
+                    //echo 'theoretisch success mit offset und rows<br>';
                     return $this;
                 }
 
@@ -147,12 +147,12 @@ class DB{
     }
 
     /**
-     * @param $action string welche aktion soll ausgeführt werden ( select /  update / delete)
-     * @param $table string in welcher tabelle das geschehen soll
-     * @param $offset int ab der wievielten zeile sollen die die resultate angzeigt werden, optional
-     * @para $rows int wie viele zeilen sollen angezeigt werden,optional
-     * @para $orderRule string hier kann man asc  oder desc angeben
-     * @para $orderField string an welchem feld es sortiert werden soll
+     * @param string $action  welche aktion soll ausgeführt werden ( select /  update / delete)
+     * @param string $table  in welcher tabelle das geschehen soll
+     * @param int|null $offset ab der wievielten zeile sollen die die resultate angzeigt werden, optional
+     * @param int|null $rows wie viele zeilen sollen angezeigt werden,optional
+     * @param string |null $orderRule  hier kann man asc  oder desc angeben
+     * @param string|null $orderField an welchem feld es sortiert werden soll
      * @return $this|bool kontrolle ob es funktioniert hat
      *
      * funktion um alles aus einer tabelle zu auswählen / aktualisierten / löschen, optional kann man auch
@@ -178,8 +178,8 @@ class DB{
 
 
     /**
-     * @param $table string welche tabelle verwendet werden soll
-     * @param $where array bedingungen
+     * @param string $table welche tabelle verwendet werden soll
+     * @param array $where bedingungen
      * @return $this|bool|DB   ruft funktion action auf, welche bei einem erfolg daten aus der db liefert, sonst eine error msg
      *
      * funktion um daten aus der db abzurufen
@@ -192,7 +192,7 @@ class DB{
 
     /**
      * Funktion um alle datensätze abzurufen
-     * @param $table string welche tabelle
+     * @param string $table  welche tabelle
      * @return $this|bool|DB bei erfolg, alle datensätze als objekt sonst false
      */
     public function getAll($table,$orderRule=null,$orderField=null){
@@ -209,8 +209,8 @@ class DB{
 
 
     /**
-     * @param $table string welche tabelle werwendet werden soll
-     * @param $where array bedingung
+     * @param string $table  welche tabelle werwendet werden soll
+     * @param array $where  bedingung
      * @return $this|bool|DB ruft funktion action auf, welche bei einem erfolg daten aus der db löscht, sonst eine error msg
      *
      * funktion um daten in der db zu löschen
@@ -244,7 +244,7 @@ class DB{
     }
 
     /**
-     * @param $table string welche tabelle verwendet werden soll
+     * @param string $table  welche tabelle verwendet werden soll
      * @param array $fields assoziativer array mit spalten der tabelle und dem entsprechendem wert
      * @return bool kontrolle ob inster funktioniert hat
      *
@@ -279,9 +279,9 @@ class DB{
     }
 
     /**
-     * @param $table string welche tabelle verwendet werden soll
-     * @param $id int primary key des datensatzes der modifiziert wird
-     * @param $fields array assoziatives array mit spaltenbezeichnung als key und dem entsprechendem wert
+     * @param string $table welche tabelle verwendet werden soll
+     * @param int $id primary key des datensatzes der modifiziert wird
+     * @param array $fields assoziatives array mit spaltenbezeichnung als key und dem entsprechendem wert
      * @return bool kontrolle ob es funktioniert hat
      *
      * funktion um einen datensatz in einer db zu aktualisieren / ändern
@@ -321,7 +321,7 @@ class DB{
     }
 
     /**
-     * @return bool falls es zu einem error kommt gibt es true zurück
+     * @return bool|array false, falls es keine gegeben hat, sonst ein array mit allen error drin
      */
     public function error(){
         return $this->_error;
@@ -348,14 +348,48 @@ class DB{
     }
 
 
+    /**
+     * Funktion um die kommenden Events abzurufen
+     * @param string  $table welche tabelle benutzt werden soll
+     * @param array $where array mit feld, operator und argument
+     * @return DB datensatz als objekt
+     */
+    public function getUpCommingEvents($table,$where=array()){
+        if(!count($where)) {
+            $sql = "select * from {$table} where date > now() order by date asc";
 
-    public function getUpCommingEvents($table){
-        $sql="select * from {$table} where date > now() order by date asc";
-        return $this->query($sql);
+            return $this->query($sql);
+        }
+        if(count($where===3)){
+            $operators=array('=','>','<','>=', '<=');
+
+            $field=$where[0];    //zb id
+            $operator=$where[1];    //zb =
+            $value=$where[2];   // zb 1
+
+            //where ist also in diesem fall id=1 ,
+
+            //echo ' where check complete<br>';
+            //echo $offset.' off und : '.$rows.'<br>';
+
+            //hier wird überprüft ob der gewünschte operator bekannt ist wenn der error unbekannt ist, gibt es einen error
+            if(in_array($operator, $operators)&&$field!=null){
+                $sql = "select * from {$table} where date > now()and {$field} {$operator} ? order by date asc";
+
+                return $this->query($sql,array($value));
+            }
+        }
+
     }
 
 
-
+    /**
+     * Funktion um vergangene events abzurufen
+     * @param string  $table name der tabelle
+     * @param null|int  $offset ab welchem datensatz soll abgerufen werden
+     * @param null|int  $rows wieviele zeilen sollen abgerufen werden
+     * @return DB datensatz mit gewünschten zeilen als objekt
+     */
     public function getArchivEvents($table,$offset=null,$rows=null){
 
 
@@ -370,6 +404,34 @@ class DB{
         }
     }
 
+
+    /**
+     * Funktion um alle events abzurufen die in einem zeitlichen konflikt mit den parametern stehen
+     * @param string $table  welche tabelle
+     * @param string $field  welches feld soll überprüft werden
+     * @param string $start startzeit ( datetime) (yyyy-mm-dd hh:mm:ss)
+     * @param string $end endzeit ( datetime) (yyyy-mm-dd hh:mm:ss)
+     * @return DB falls es events gibt die auch zu dieser zeit aktiv sind
+     */
+    public function getInterferingEvents($table,$field,$start,$end){
+        $sql="select * from {$table} where {$field} between '{$start}' and '{$end}' ";
+
+        return $this->query($sql);
+    }
+
+
+    /**
+     * funktion um einen distinct count zu machen für kommende events ( variabel)
+     * wird verwendet um alle genres abzurufen die vorkommen, bei der auswahl will man ja keine genres die gar nicht vorkommen
+     * @param string $table  welche tabelle
+     * @param string $field  welches feld
+     * @return DB datensatz als objekt
+     */
+    public function getDistinctUpComming($table,$field){
+        $sql = "select distinct {$field} from {$table}  where date > now()";
+
+        return $this->query($sql);
+    }
 
 
 }

@@ -15,7 +15,7 @@ class Redirect{
     /**
      * funktion um einen user weiterzuleiten
      *
-     * @param null $location auf welche seit der user weitergeleitet werden soll
+     * @param null|string $location auf welche seit der user weitergeleitet werden soll
      */
     public static function to($location=null){
         if($location){

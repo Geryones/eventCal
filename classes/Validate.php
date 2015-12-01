@@ -28,9 +28,9 @@ class Validate{
     /**
      * funktion um einen string zu validieren
      *
-     * @param $source globales array ( post oder get)
+     * @param array $source globales array ( post oder get)
      * @param array $items array(assoziativ) mit den regeln für die inputfelder, keys= name des inputfeldes
-     * @return $this true falls keine erorrs, sonst array mit erros
+     * @return bool|array $this true falls keine erorrs, sonst array mit erros
      */
     public function check($source, $items=array()){
         $this->_errors=array();
@@ -129,8 +129,6 @@ class Validate{
                                 $this->addError("{$itemName} is to small");
                             }
                             break;
-
-
                     }
                 }
             }
@@ -146,9 +144,9 @@ class Validate{
     /**
      * funktion um eine bilddatei zu validieren
      *
-     * @param $source globales array $_POST
+     * @param array $source globales array $_POST
      * @param array $items assozitives array mit den Validierungs-regeln/-werten
-     * @return $this true falls es keine Error gibt, sonst Array mit den Errormeldungen
+     * @return bool|array $this true falls es keine Error gibt, sonst Array mit den Errormeldungen
      */
     public function checkFile($source,$items=array()){
 
@@ -231,14 +229,26 @@ class Validate{
     }
 
 
+
     /**
      * funktion um einen error dem error-array hinzuzufügen
      *
-     * @param $error errornachricht
+     * @param string $error errornachricht
      *
      */
-    private function addError($error){
+    public function addError($error){
         $this->_errors[]=$error;
+    }
+
+
+    /**
+     * funktion um den status von aussen zu ändern... ( nicht sehr happy mit dieser lösung)
+     * alternative wäre: check für zeit konflikt  hier hin zu verlegen.. und noch ein check machen..
+     *
+     * @param true|false $bool
+     */
+    public function setPassed($bool){
+        $this->_passed=$bool;
     }
 
     /**
@@ -260,6 +270,11 @@ class Validate{
     public function passed(){
         return $this->_passed;
     }
+
+    /**
+     * funktion setzt flag für die validierung von einem file
+     * @return bool status der validierung
+     */
     public function filePassed(){
         return $this->_passedFile;
     }

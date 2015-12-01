@@ -4,12 +4,15 @@
  * User: mai714
  * Date: 13.11.2015
  * Time: 09:38
+ *
+ *
+ * auf dieser seit kann man einen neuen event anlegen
  */
 
 require_once 'includes/overall/header.php';
 
 
-
+//können nur angemeldete admins
 if($user->isLoggedIn()) {
     $fileSaver = new SaveFile();
 
@@ -18,7 +21,7 @@ if($user->isLoggedIn()) {
     if(Input::exists()) {
 
 
-
+        //vorgaben für bilder
         $validation->checkFile($_FILES, array(
             'eventPicture' => array(
                 'name' => 'Picture',
@@ -30,7 +33,7 @@ if($user->isLoggedIn()) {
             )
         ));
 
-
+        //vorgaben für inputfelder
         $validation->check($_POST, array(
             'eventName' => array(
                 'name' => 'Event Name',
@@ -87,7 +90,18 @@ if($user->isLoggedIn()) {
 
         ));
 
+        //date-time stempel wird gebaut
+        $rawdate= new DateTime(Input::get('eventDate').' '.Input::get('eventTimeHour').':'.Input::get('eventTimeMinute').':00');
+        $date =$rawdate->format('Y-m-d H:i:s');
+        $duration=Input::get('eventDuration');
+        $endTime = strtotime("+{$duration} minutes", strtotime($date));
 
+        //hier wird überprüft ob ein event in einem zeitkonflikt mit einem anderen event steht
+        $conflicts=DB::getInstance()->getInterferingEvents('event','date',$date,date('Y-m-d h:i:s', $endTime))->results();
+        if(count($conflicts)){
+            $validation->addError('Dieses Event steht in einem Zeitkonflikt mit einem bereits bestehendem Event');
+            $validation->setPassed(false);
+        }
 
 
         if (!$validation->passed()) {
@@ -102,17 +116,17 @@ if($user->isLoggedIn()) {
             }
         }
 
-
+        //wenn alles validiert werden konnte und es keine fehler gab wird das file gespeichert
         if ($validation->passed() && $validation->filePassed()) {
             $eventFileName=$fileSaver->savePicture($_FILES,'eventPicture');
 
-            //2015-11-12 15:26:53 das wollen wir
-            $rawdate= new DateTime(Input::get('eventDate').' '.Input::get('eventTimeHour').':'.Input::get('eventTimeMinute').':00');
-            $date =$rawdate->format('Y-m-d H:i:s');
+
+
 
             $eventName= Input::get('eventName');
 
             try {
+                //event wird generiert
                 DB::getInstance()->insert('event', array(
                     'name' => $eventName,
                     'starring'=>Input::get('eventCast'),
@@ -129,7 +143,7 @@ if($user->isLoggedIn()) {
 
                 $eventID=DB::getInstance()->get('event',array('name','=',$eventName))->first()->id;
 
-
+                //alle preisgruppen werden in der db gesichert
                 foreach(Input::get('pricegroup') as $price){
                     DB::getInstance()->insert('event_has_price',array(
                         'fk_pricegroup_id'=>intval($price),

@@ -4,11 +4,18 @@
  * User: mai714
  * Date: 18.11.2015
  * Time: 16:59
+ *
+ * auf dieser seite is das archiv, jeder hat zutritt
+ * allerdings können admins das archiv weiterhin bearbeiten, das heisst events updaten oder löschen
+ *
  */
 include'includes/overall/header.php';
 
 
-
+/*
+ * hier findet die pagination statt
+ * für die pagination braucht es die anzahl "posts" pro seite, dieser ist per default auf 5 gesetzt
+ */
 $pagination = new Pagination('event','archiv.php');
 $eventOrganizer = new EventOrganizer();
 

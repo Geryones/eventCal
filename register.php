@@ -1,6 +1,6 @@
 <?php
 /**
- * Formular für die Registrierung eines neuen Users
+ * Formular für die Registrierung eines neuen Admins
  */
 include'includes/overall/header.php';
 
@@ -65,7 +65,7 @@ include'includes/overall/header.php';
         }
     }
 
-
+//auch hier habne nur angemeldete admins zugriff
 if($user->isLoggedIn()) {
     ?>
 <h1>Register</h1>

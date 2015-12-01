@@ -1,3 +1,6 @@
+<!-- hier ist der head für alle files
+hier wird bootstrap und mein eigenes css eingebunden-->
+
 <head>
     <title>Pumba-Events</title>
     <meta charset="UTF-8">

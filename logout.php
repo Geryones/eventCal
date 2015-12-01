@@ -4,6 +4,8 @@
  * User: mai714
  * Date: 23.09.2015
  * Time: 16:12
+ *
+ * hier wird der admin ausgeloggt
  */
 
 

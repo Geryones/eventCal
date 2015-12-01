@@ -4,16 +4,19 @@
  * User: mai714
  * Date: 13.11.2015
  * Time: 09:40
+ *
+ *
+ * auf dieser seite kann der admin neue pricegroups erfassen
  */
 require_once 'includes/overall/header.php';
 
-
+//nur angemeldete admin haben zugriff
 if($user->isLoggedIn()) {
 
     if(Input::exists()) {
 
         $validation = new Validate();
-
+        //regeln für  die pricegroup
         $validation->check($_POST, array(
             'priceDescription' => array(
                 'name' => 'Preisgruppen Bezeichnung',
@@ -26,6 +29,7 @@ if($user->isLoggedIn()) {
                 'max'=>20
             )
         ));
+        //wenn alles validiert werden konnte wird ein eintrag in der db gemacht
         if ($validation->passed()) {
             DB::getInstance()->insert('pricegroup',array(
                 'name'=>Input::get('priceDescription'),
@@ -33,6 +37,7 @@ if($user->isLoggedIn()) {
 
             ));
         }else{
+            //falls es probleme gab, werden hier die erros ausgegeben
             foreach ($validation->errors() as $error) {
                 echo $error, '<br>';
             }

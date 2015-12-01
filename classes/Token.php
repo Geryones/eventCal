@@ -26,7 +26,7 @@ class Token{
     /**
      * funktion die überprüft ob das vom user verwendete token, mit dem token übereinstimmt, dass dem user in der session zugewiesen ist
      *
-     * @param $token aktuelles token vom user
+     * @param string $token aktuelles token vom user
      * @return bool check ob es mit dem token in der session übereinstimmt
      *
      *

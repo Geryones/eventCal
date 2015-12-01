@@ -21,7 +21,7 @@ class User{
     /**
      * constructor, definiert einen user
      *
-     * @param null $user klasse kann mit  oder ohne bereits vorhandenen user aufgerufen werden
+     * @param null/object $user klasse kann mit  oder ohne bereits vorhandenen user aufgerufen werden
      *
      * im constructor wird überprüft ob der user bereits existiert
      * falls er existiert, wird der loggedin - Status auf true gesetzt
@@ -62,7 +62,7 @@ class User{
     /**
      * funktion um nach einem user in der db zu suchen
      *
-     * @param null $user der benutzer der in der db gefunden werden soll( kann int oder string sein)
+     * @param null|int|string $user der benutzer der in der db gefunden werden soll( kann int oder string sein)
      * @return bool status ob der user gefunden wurde
      */
     public function find($user=null){
@@ -85,8 +85,8 @@ class User{
      * wenn der user das nächste mal kommt und die id für einen existierenden user im cookie vorhanden ist, wird der user
      * automatisch eingeloggt
      *
-     * @param null $username name des users, der sich versucht einzuloggen
-     * @param null $password passwort des users
+     * @param null|string $username name des users, der sich versucht einzuloggen
+     * @param null|string $password passwort des users
      * @return bool status ob login erfolgreich war
      */
     public function login($username=null, $password=null){
@@ -124,7 +124,7 @@ class User{
      * funktion um informationen von einem user in der db zu ändern
      *
      * @param array $fields assoziatives array mit keys = spaltenbezeichnung in db
-     * @param null $id  id des users
+     * @param null|int $id  id des users
      * @throws Exception error, falls es ein problem beim updaten des users gab
      */
     public function update($fields=array(),$id=null){

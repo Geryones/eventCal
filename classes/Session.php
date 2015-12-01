@@ -18,7 +18,7 @@ class Session{
     /**
      * funktion um zu überprüfen ob ein attribut einer session gesetzt wurde
      *
-     * @param $name des zu überprüfenden keys im $_SESSION-array
+     * @param string $name des zu überprüfenden keys im $_SESSION-array
      * @return bool true wenn die session existiert, false falls nicht
      */
     public static function exists($name){
@@ -29,8 +29,8 @@ class Session{
     /**
      * funktion um ein attribut in SESSION zu setzen
      *
-     * @param $name name des keys im $_SESSION-array
-     * @param $value wert zum key
+     * @param string $name name des keys im $_SESSION-array
+     * @param mixed $value wert zum key
      * @return bool check ob es funktioniert hat
      */
     public static function put($name, $value){
@@ -40,7 +40,7 @@ class Session{
     /**
      * funktion um ein attribut aus SESSION abzurufen
      *
-     * @param $name key für den wert den man wünscht
+     * @param string $name key für den wert den man wünscht
      * @return mixed gibt den wert für den key zurück
      */
     public static function get($name){
@@ -50,7 +50,7 @@ class Session{
     /**
      * funktion löscht den gewünschten teil im SESSION-array
      *
-     * @param $name key im $_SESSION-array der gelöscht werden soll
+     * @param string $name key im $_SESSION-array der gelöscht werden soll
      *
      *
      */
@@ -64,7 +64,7 @@ class Session{
     /**
      * funktion ermöglicht es, eine nachricht auf einer seite nur einmal anzuzeigen, das heisst, wenn man die seite aktualisiert wird die meldung nicht mehr angzeigt
      *
-     * @param $name name für den key im SESSION-array
+     * @param string $name name für den key im SESSION-array
      * @param string $string mitteilung
      * @return mixed string mit der mitteilung
      *

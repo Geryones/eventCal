@@ -4,7 +4,7 @@ include'includes/overall/header.php';
 
 
 /**
- * seit auf der sich der user einloggen kann
+ * seit auf der sich der admin einloggen kann
  */
 
 if(Input::exists()){

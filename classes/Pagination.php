@@ -20,8 +20,8 @@ class Pagination {
 
     /**
      * Constructor für die klasse
-     * @param $table welche tabelle in der datenbank verwendet werden soll
-     * @param $origin auf welche seite die ergebnise angezeigt werden sollen ( für get parameter)
+     * @param string $table  welche tabelle in der datenbank verwendet werden soll
+     * @param string $origin  auf welche seite die ergebnise angezeigt werden sollen ( für get parameter)
      *
      */
     public function __construct($table,$origin){
@@ -72,8 +72,8 @@ class Pagination {
 
     /**
      * funktion um den inhalt, der dargestellt wird von der datenbank abzurufen
-     * @param $pagenumber für welche seitennumber der inhalt abgerufen werden soll
-     * @param $pageRows wie viele zeilen sollen abgerufen werden
+     * @param int $pagenumber für welche seitennumber der inhalt abgerufen werden soll
+     * @param int $pageRows wie viele zeilen sollen abgerufen werden
      * @param array $where falls es einschränkungen gibt, werden diese hier angegeben( feld, = > < <= >=, kriterium)
      * @return bool|mixed bei erfolg wird ein objekt mit den resultaten zurück gegeben, ansonsten ein true für , ja es gab einen fehler ( where nicht gleich 0 oder 3)
      */
@@ -100,8 +100,8 @@ class Pagination {
 
     /**
      * funktion um die steuereinheit der pagination zu bauen
-     * @param $actualPage aktuelle seite
-     * @param $pageRows anzahl zeilen pro seite
+     * @param int $actualPage aktuelle seite
+     * @param int $pageRows anzahl zeilen pro seite
      * @return string die ganze navigationseinheit für die pagination
      */
     public function createPaginationControls($actualPage,$pageRows){

@@ -4,9 +4,13 @@
  * User: mai714
  * Date: 24.11.2015
  * Time: 16:34
+ *
+ * hier wird das wechseln von einem event-bild verwaltet
  */
 require_once 'includes/overall/header.php';
-
+/*
+ * nur ein admin kann das machen
+ */
 if($user->isLoggedIn()){
 
     echo '<br><br>';
@@ -28,7 +32,7 @@ if($user->isLoggedIn()){
     if(Input::exists()) {
 
 
-
+        //regeln für das bild
         $validation->checkFile($_FILES, array(
             'eventPicture' => array(
                 'name' => 'Picture',
@@ -42,7 +46,7 @@ if($user->isLoggedIn()){
 
 
 
-
+        //regeln für die picture-description
         $validation->check($_POST, array(
             'eventPictureDescription' => array(
                 'name' => 'Description of the EventPicture',
@@ -68,8 +72,7 @@ if($user->isLoggedIn()){
 
 
 
-
-
+        //wenn beides validiert werden konnte wird das bild gespeichert
         if ($validation->passed() && $validation->filePassed()) {
             $eventFileName=$fileSaver->savePicture($_FILES,'eventPicture');
 
@@ -78,21 +81,22 @@ if($user->isLoggedIn()){
 
 
             try {
+                //name des alten bildes wird abgerufen um es später löschen zu können
                 $old=$db->get('event',array('id','=',Input::get('eventId')))->first()->picture;
 
-
+                //name des neuen bildes wird in die db gespeichert
                 $db->update('event',Input::get('eventId'), array(
                     'picture'=>$eventFileName,
                     'picturedescription'=>Input::get('eventPictureDescription'),
                 ));
 
-
+                //altes bild wird gelöscht
                 unlink(Config::get('pictures/dirOriginal').$old);
 
 
 
-                //Session::flash('success','EventPicture successfully changed');
-                //Redirect::to('admin.php');
+                Session::flash('success','EventPicture successfully changed');
+                Redirect::to('admin.php');
 
 
 

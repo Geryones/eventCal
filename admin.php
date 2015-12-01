@@ -4,7 +4,13 @@
  * User: mai714
  * Date: 17.11.2015
  * Time: 11:11
+ *
+ * diese seit ist "home" für die administrator
+ * sobald er eingeloggt ist, kann er von hier aus auf alle funktionen zugreifen
+ *
  */
+
+
 include 'includes/overall/header.php';
 
 
