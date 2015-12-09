@@ -42,7 +42,7 @@ class EventOrganizer {
 
             //falls eingeloggt werden noch die buttons generiert
             if ($user->isLoggedIn()) {
-                echo '<table class="price">'."\n";
+                echo '<table>'."\n";
                 echo '<tbody>'."\n";
                 echo '<tr>'."\n";
                 echo '<td>'."\n";
@@ -111,16 +111,17 @@ class EventOrganizer {
         $priceKeys=$db->get('event_has_price',array('fk_event_id','=',$event->id))->results();
 
         echo '<ul class="list-unstyled">'."\n";
-        echo '<h7>'.$event->date.'</h7>'."\n";
-        echo '<h4>'.$event->name.'</h4>'."\n";
-        echo '<h5>'.$event->description.'</h5>'."\n";
-        echo '<h4>'.$genre.'</h4>'."\n";
-        echo '<h7> Dauer: '.$event->duration.' Minuten</h7>'."\n";
+        echo '<li><h6>'.$event->date.'</h6></li>'."\n";
+        echo '<li><h4>'.$event->name.'</h4></li>'."\n";
+        echo '<li><h5>'.$event->description.'</h5></li>'."\n";
+        echo '<li><h4>'.$genre.'</h4></li>'."\n";
+        echo '<li><h6> Dauer: '.$event->duration.' Minuten</h6></li>'."\n";
 
        //wenn der link nicht lehr ist und die link description auch nicht wird ein link eingehängt
         if($event->link!="" && $event->linkDescription!=""){
-            echo '<h5>Link: <a href="'.$event->link.'">-->'.$event->linkDescription.'<--</a> </h5>'."\n";
+            echo '<li><h5>Link: <a href="'.$event->link.'">-->'.$event->linkDescription.'<--</a> </h5></li>'."\n";
         }
+       echo '</ul>'."\n";
 
         echo '<table>'."\n";
         echo '<tbody>'."\n";
@@ -138,7 +139,7 @@ class EventOrganizer {
         }
         echo '</tbody>'."\n";
         echo '</table>'."\n";
-        echo '</ul>'."\n";
+
 
 
 

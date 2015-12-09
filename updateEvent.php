@@ -65,7 +65,8 @@ if($user->isLoggedIn()) {
                 ),
                 'eventDuration' => array(
                     'name' => 'Duration of the Event',
-                    'required' => true
+                    'required' => true,
+                    'minValue'=>1
                 ),
                 'eventLink' => array(
                     'name' => 'Event Link',
@@ -201,7 +202,7 @@ We are sorry for the inconvenience </h3>
 </li>
 <li>
     <label for="eventDuration">Event Duration in Minutes</label><br>
-    <input type="number" name="eventDuration" id="eventDuration" required="required" min="0" value=<?php echo escape($event->duration);?> ><br>
+    <input type="number" name="eventDuration" id="eventDuration" required="required" min="1" value=<?php echo escape($event->duration);?> ><br>
 </li>
 <li>
     <label for="eventLink">Link</label><br>

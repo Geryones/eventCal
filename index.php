@@ -21,8 +21,9 @@ $organizer = new EventOrganizer();
 $genres=$db->getDistinctUpComming('event','fk_genre_id')->results();
 ?>
 <!-- hier wird ein dropdwon menu kreiert für die genres-->
-<form method="post" action="">
+<form method="post" action="#">
     <select name="genre" required="required">
+        <option value=""> Choose</option>
         <option value="all"> Show All</option>
         <?php
 

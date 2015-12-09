@@ -38,9 +38,9 @@ if($user->isLoggedIn()){
                 'name' => 'Picture',
                 'type' => 'picture',
                 'required' => true,
-                'maxFileSize' => 3072 * 1000,//erlaubt 3MB grosse bilder
-                'maxWidth' => 4000,
-                'maxHeight' => 4000
+                'maxFileSize' => 512 * 1000,//erlaubt 0.5MB grosse bilder
+                'maxWidth' => 1000,
+                'maxHeight' => 1000
             )
         ));
 
@@ -65,7 +65,7 @@ if($user->isLoggedIn()){
 
 
         if (!$validation->filePassed()) {
-            foreach ($validation->errors() as $error) {
+            foreach ($validation->fileErrors() as $error) {
                 echo $error . '<br>';
             }
         }

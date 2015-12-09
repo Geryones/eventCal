@@ -47,8 +47,8 @@ if($user->isLoggedIn()) {
 
     <h1>this is pricegroup</h1>
 
-    <p>
-        <form action="" method="post">
+   
+        <form action="#" method="post">
          <ul class="list-unstyled">
                 <li>
                     <label for="priceDescriptin">Bezeichnung der Preisgruppe</label><br>
@@ -61,7 +61,7 @@ if($user->isLoggedIn()) {
                 </li>
             </ul>
         </form>
-    </p>
+
 
 
 

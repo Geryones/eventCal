@@ -27,9 +27,9 @@ if($user->isLoggedIn()) {
                 'name' => 'Picture',
                 'type' => 'picture',
                 'required' => true,
-                'maxFileSize' => 3072 * 1000,//erlaubt 3MB grosse bilder
-                'maxWidth' => 4000,
-                'maxHeight' => 4000
+                'maxFileSize' => 512 * 1000,//erlaubt 0.5mb grosse bilder
+                'maxWidth' => 1000,
+                'maxHeight' => 1000
             )
         ));
 
@@ -68,7 +68,8 @@ if($user->isLoggedIn()) {
             ),
             'eventDuration' => array(
                 'name' => 'Duration of the Event',
-                'required' => true
+                'required' => true,
+                'miniValue'=>1
             ),
             'eventPictureDescription' => array(
                 'name' => 'Description of the EventPicture',
@@ -110,8 +111,10 @@ if($user->isLoggedIn()) {
             }
         }
 
+
         if (!$validation->filePassed()) {
-            foreach ($validation->errors() as $error) {
+
+            foreach ($validation->fileErrors() as $error) {
                 echo $error . '<br>';
             }
         }
@@ -168,8 +171,8 @@ if($user->isLoggedIn()) {
     ?>
 
   <h1>Create new Event</h1>
-   <p>
-        <form action="" method="post" enctype="multipart/form-data">
+
+        <form action="#" method="post" enctype="multipart/form-data">
          <ul class="list-unstyled">
                 <li>
                     <label for="eventName"> Eventname:</label><br>
@@ -180,7 +183,7 @@ if($user->isLoggedIn()) {
                     <input type="text" name="eventCast" id="eventCast" value="<?php echo escape(Input::get('eventCast'));?>"  ><br>
                 </li>
                 <li>
-                    <label for="eventDescription">Description:</label><br>
+                    <label>Description:</label><br>
                    <textarea name="eventDescription" cols="40" rows="5" required="required" ><?php echo escape(Input::get('eventDescription'));?></textarea><br><br>
 
                 </li>
@@ -195,7 +198,7 @@ if($user->isLoggedIn()) {
                 </li>
                 <li>
                     <label for="eventDuration">Event Duration in Minutes</label><br>
-                    <input type="number" name="eventDuration" id="eventDuration" required="required" min="0" value=<?php echo escape(Input::get('eventDuration'));?> ><br>
+                    <input type="number" name="eventDuration" id="eventDuration" required="required" min="1" value="<?php echo escape(Input::get('eventDuration'));?>" ><br>
                 </li>
                 <li>
                     <label for="eventLink">Link</label><br>
@@ -212,8 +215,9 @@ if($user->isLoggedIn()) {
                     <textarea name="eventPictureDescription" id="eventPictureDescription" cols="40" rows="5" required="required" ><?php echo escape(Input::get('eventPictureDescription'));?></textarea><br><br>
                 </li>
                 <li>
-                    <label for="genre">Genre</label><br>
+                    <label>Genre</label><br>
                     <select name="genre" required="required">
+                        <option  value=""> Choose Genre</option>
                         <?php
                             $genres=DB::getInstance()->getAll('genre')->results();
                             foreach($genres as $row){
@@ -241,7 +245,7 @@ if($user->isLoggedIn()) {
                 </li>
             </ul>
         </form>
-    </p>
+
 <?php
 }else{
     Redirect::to('index.php');

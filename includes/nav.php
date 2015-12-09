@@ -22,7 +22,7 @@ $user = new User();
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="index.php">Home</a>
+                    <a href="index.php">Programm</a>
                 </li>
                 <li>
                     <a href="archiv.php">Archiv</a>
@@ -38,9 +38,6 @@ $user = new User();
                             </li>
                             <li>
                                 <a href="register.php">Create New Admin</a>
-                            </li>
-                            <li>
-                                <a href="test.php">Test-Page</a>
                             </li>
                             <li class="divider"></li>
                             <li class="dropdown-header">Manage Events</li>

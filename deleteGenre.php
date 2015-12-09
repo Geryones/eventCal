@@ -24,7 +24,7 @@ if($user->isLoggedIn()) {
 
 
 <?php
-    echo '<form action="" method="post">'."\n";
+    echo '<form action="#" method="post">'."\n";
     $genres=DB::getInstance()->getDeletableGenres()->results();
     //nur wenn es genres gibt, die auch gelöscht werden können wird ein button mit checkboxen generiert
     if(count($genres)) {

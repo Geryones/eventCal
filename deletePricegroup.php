@@ -25,7 +25,7 @@ if($user->isLoggedIn()) {
 
 
 <?php
-    echo '<form action="" method="post">'."\n";
+    echo '<form action="#" method="post">'."\n";
     $pricegroups=DB::getInstance()->getDeletablePriceGroups()->results();
     //nur wenn es pricegroups gibt die zur zeit nicht verwendet werden wird button und auswahl-checkboxen generiert
     if(count($pricegroups)) {

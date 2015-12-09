@@ -52,7 +52,7 @@ if(Input::exists()){
 
     <h2>Log in</h2>
 
-        <form action="" method="post">
+        <form action="#" method="post">
             <ul id="login" class="list-unstyled">
                 <li>
                     Username:<br>

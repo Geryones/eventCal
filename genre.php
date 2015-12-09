@@ -48,8 +48,8 @@ if($user->isLoggedIn()) {
     <h1>this is genre</h1>
 
     <h3>Neues Genre erfassen</h3>
-    <p>
-        <form action="" method="post">
+
+        <form action="#" method="post">
          <ul class="list-unstyled">
                 <li>
                     <label for="genre"> New Genre</label><br>
@@ -59,7 +59,7 @@ if($user->isLoggedIn()) {
                 </li>
             </ul>
         </form>
-    </p>
+
     <br> <br>
     <?php
 

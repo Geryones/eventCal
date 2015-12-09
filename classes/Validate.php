@@ -16,6 +16,7 @@ class Validate{
     private $_passed=false,
             $_passedFile=false,
             $_errors=array(),
+            $_fileErrors=array(),
             $_db=null;
 
     /**
@@ -112,10 +113,17 @@ class Validate{
                             break;
                         case 'date':
                             $today=getdate();
-                            $minDate=$today['year'].$today['mon'].$today['mday'];
+                            if(intval($today['mday'])<10){
+                                $minDate=$today['year'].$today['mon'].'0'.$today['mday'];
+                            }else{
+                                $minDate=$today['year'].$today['mon'].$today['mday'];
+                            }
+
+
+
                             $datepieces=explode("-",$value);
                             $selectedDate=$datepieces[0].$datepieces[1].$datepieces[2];
-                            if($selectedDate<$minDate){
+                            if(intval($selectedDate)<intval($minDate)){
                                 $this->addError('Plz select a date in the future');
                             }
                         break;
@@ -153,13 +161,13 @@ class Validate{
 
         //echo 'reached validation<br>';
 
-        $this->_errors=array();
+        $this->_fileErrors=array();
 
 
          //drill down auf die erste ebene, welche den namen des inputfeldes enthält
         foreach($items as $item=>$rules){
             if($source[$item]['error']!=0) {
-                $this->addError("Fehler beim Upload des Bildes, es stehen keine weiteren Informationen zur Verfügung");
+                $this->addFileError("Fehler beim Upload des Bildes, es stehen keine weiteren Informationen zur Verfügung");
                return $this;
 
             }else{
@@ -173,7 +181,7 @@ class Validate{
 
                     //wenn ein feld 'required' ist und leer, muss es nicht komplet validiert werden
                     if ($rule === 'required' && empty($theFile) && $ruleValue) {
-                        $this->addError("{$itemName} is required");
+                        $this->addFileError("{$itemName} is required");
                     } else if (!empty($theFile)) {
                         //Eigenschaften des Bildes
                         $fileType=exif_imagetype($theFile['tmp_name']);
@@ -182,7 +190,7 @@ class Validate{
 
                             case 'maxFileSize':
                                 if(filesize($theFile['tmp_name'])>$ruleValue){
-                                    $this->addError("{$itemName} is too big");
+                                    $this->addFileError("{$itemName} is too big");
 
                                 }
                                 break;
@@ -190,28 +198,28 @@ class Validate{
                                 if($ruleValue==='picture') {
 
                                     if ($fileType != IMAGETYPE_JPEG && $fileType != IMAGETYPE_PNG && $fileType != IMAGETYPE_GIF) {
-                                        $this->addError("this file Type is not allowed, allowed are: jpeg, jpg, png and gif");
+                                        $this->addFileError("this file Type is not allowed, allowed are: jpeg, jpg, png and gif");
                                     }
                                 }//noch nicht implementiert, man könnte noch andere typen adden
                                 break;
                             case 'maxHeight':
                                 if($height>$ruleValue){
-                                    $this->addError("The {$itemName} is to High XD");
+                                    $this->addFileError("The {$itemName} is to High XD");
                                 }
                                 break;
                             case 'maxWidth':
                                 if($width>$ruleValue){
-                                    $this->addError("The {$itemName}'s Width is to big");
+                                    $this->addFileError("The {$itemName}'s Width is to big");
                                 }
                                 break;
                             case 'minHeight':
                                 if($height<$ruleValue){
-                                    $this->addError("the {$itemName} is not High enough XD");
+                                    $this->addFileError("the {$itemName} is not High enough XD");
                                 }
                                 break;
                             case 'minWidth':
                                 if($width<$ruleValue){
-                                    $this->addError("the {$itemName}'s Width is not big enough");
+                                    $this->addFileError("the {$itemName}'s Width is not big enough");
                                 }
                                 break;
                         }
@@ -221,7 +229,7 @@ class Validate{
 
         }
         //echo 'survived all foreach<br>';
-        if(empty($this->_errors)){
+        if(empty($this->_fileErrors)){
            // echo'all went goooooood<br>';
             $this->_passedFile=true;
         }
@@ -238,6 +246,15 @@ class Validate{
      */
     public function addError($error){
         $this->_errors[]=$error;
+    }
+
+
+    /**
+     * funktion um einen error bei der file-validierung hinzuzufügen
+     * @param $error string errornachricht
+     */
+    public function addFileError($error){
+        $this->_fileErrors[]=$error;
     }
 
 
@@ -259,6 +276,15 @@ class Validate{
      */
     public function errors(){
         return $this->_errors;
+    }
+
+
+    /**
+     * Funktion ruft alle File-Validation-errors ab
+     * @return array mit allen file-errors
+     */
+    public function fileErrors(){
+        return $this->_fileErrors;
     }
 
     /**

@@ -28,7 +28,7 @@ include'includes/overall/header.php';
                     'name'=>'Password',
                     'required' => true,
                     'min' => 8,
-                    'mediumSecurity'=>false //gross und kleinbuchstaben, minimum eine zahl
+                    'mediumSecurity'=>true //gross und kleinbuchstaben, minimum eine zahl
                 ),
                 'password_again' => array(
                     'name'=>'Password Repetition',
@@ -69,8 +69,8 @@ include'includes/overall/header.php';
 if($user->isLoggedIn()) {
     ?>
 <h1>Register</h1>
-   <p>
-        <form action="" method="post">
+
+        <form action="#" method="post">
          <ul class="list-unstyled">
                 <li>
                     <label for="username"> Username:</label><br>
@@ -92,7 +92,7 @@ if($user->isLoggedIn()) {
                 </li>
             </ul>
         </form>
-    </p>
+
 
 <?php
 }else{
