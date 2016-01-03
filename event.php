@@ -91,7 +91,7 @@ if($user->isLoggedIn()) {
 
         ));
 
-        //date-time stempel wird gebaut
+        //date-time stempel wird gebaut hmm
         $rawdate= new DateTime(Input::get('eventDate').' '.Input::get('eventTimeHour').':'.Input::get('eventTimeMinute').':00');
         $date =$rawdate->format('Y-m-d H:i:s');
         $duration=Input::get('eventDuration');
