@@ -14,6 +14,7 @@ if(Input::exists()){
 
         //es wird geprüft ob man ein username und pw eingegeben hat
         $validation = $validate->check($_POST,array(
+            'name'=>'Password',
             'username'=>array('required'=>true),
             'password'=>array('required'=>true)
         ));

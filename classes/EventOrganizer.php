@@ -113,6 +113,7 @@ class EventOrganizer {
         echo '<ul class="list-unstyled">'."\n";
         echo '<li><h6>'.$event->date.'</h6></li>'."\n";
         echo '<li><h4>'.$event->name.'</h4></li>'."\n";
+        echo '<li><h4>'.$event->starring.'</h4></li>'."\n";
         echo '<li><h5>'.$event->description.'</h5></li>'."\n";
         echo '<li><h4>'.$genre.'</h4></li>'."\n";
         echo '<li><h6> Dauer: '.$event->duration.' Minuten</h6></li>'."\n";
